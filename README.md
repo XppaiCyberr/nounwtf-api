@@ -1,7 +1,7 @@
-# noun.wtf v2 API Endpoint
+# noun.wtf API Endpoints
 
-A small Vercel/Node.js endpoint for reading the current auction state from the
-noun.wtf v2 contract on Ethereum mainnet.
+Small Vercel/Node.js endpoints for reading current auction state from Ethereum
+mainnet.
 
 This endpoint is part of the [XPP hackathon grant](https://noun.wtf/grants/34).
 For the broader project, including firmware notes and step-by-step DIY
@@ -12,15 +12,24 @@ instructions, see the
 
 ### `GET /`
 
-Serves a compact landing page that documents the available API route.
+Serves a compact landing page that documents the available API routes.
 
 ### `GET /api/auction`
 
-Calls the contract's read-only `auction()` function and returns JSON.
+noun.wtf v2 auction endpoint. Calls the contract's read-only `auction()`
+function and returns JSON.
 
 - Contract: `0x9A6DDb16e23967D5482E5BfD7444A04a5D5145fC`
 - Function: `auction()`
-- Selector: `0x7d9f6db5`
+- CORS: enabled for browser clients
+
+### `GET /api/nouns-auction`
+
+nouns.wtf auction endpoint. Calls the contract's read-only `auction()`
+function and returns JSON.
+
+- Contract: `0x830BD73E4184ceF73443C15111a1DF14e495C706`
+- Function: `auction()`
 - CORS: enabled for browser clients
 
 Example response:
@@ -30,15 +39,12 @@ Example response:
   "success": true,
   "contract": "0x9A6DDb16e23967D5482E5BfD7444A04a5D5145fC",
   "function": "auction()",
-  "selector": "0x7d9f6db5",
   "data": {
     "nounId": "52",
     "amount": "0",
     "amountETH": "0",
     "startTime": "1782862595",
-    "startTimeISO": "2026-06-30T23:36:35.000Z",
     "endTime": "1782948995",
-    "endTimeISO": "2026-07-01T23:36:35.000Z",
     "timeLeft": "00:00",
     "bidder": "0x0000000000000000000000000000000000000000",
     "settled": false
@@ -62,6 +68,7 @@ Errors return HTTP 500:
 
 - `index.html` - static landing page served at `/`
 - `api/auction.js` - Vercel serverless function served at `/api/auction`
+- `api/nouns-auction.js` - Vercel serverless function served at `/api/nouns-auction`
 - `package.json` - dependencies and npm scripts
 - `pnpm-lock.yaml` - locked dependency versions
 
@@ -108,7 +115,8 @@ vercel
 After deployment:
 
 - Landing page: `https://<your-project>.vercel.app/`
-- API endpoint: `https://<your-project>.vercel.app/api/auction`
+- noun.wtf v2 API: `https://<your-project>.vercel.app/api/auction`
+- nouns.wtf API: `https://<your-project>.vercel.app/api/nouns-auction`
 
 ## RPC Endpoint
 
@@ -122,5 +130,5 @@ QuickNode, or DRPC.
 ## Reusing the Pattern
 
 To read a different contract function, update `CONTRACT_ADDRESS` and the
-minimal `ABI` in `api/auction.js`. Keep `bigint` values converted to strings so
-the JSON response remains browser-safe.
+minimal `ABI` in the relevant API file. Keep `bigint` values converted to
+strings so the JSON response remains browser-safe.

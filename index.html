@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>noun.wtf v2 API</title>
+  <title>noun.wtf API Endpoints</title>
   <style>
     * {
       box-sizing: border-box;
@@ -70,6 +70,10 @@
       border-radius: 6px;
     }
 
+    .endpoint + .endpoint {
+      margin-top: 12px;
+    }
+
     .method {
       display: inline-block;
       margin-right: 8px;
@@ -111,8 +115,8 @@
 </head>
 <body>
   <main>
-    <h1>noun.wtf v2 API</h1>
-    <p>Compact endpoint for reading the current auction state from Ethereum mainnet.</p>
+    <h1>noun.wtf API Endpoints</h1>
+    <p>Compact endpoints for reading current auction state from Ethereum mainnet.</p>
 
     <section>
       <h2>Project Context</h2>
@@ -126,7 +130,7 @@
 
     <section class="endpoint">
       <h2><span class="method">GET</span><code>/api/auction</code></h2>
-      <p>Calls the contract's read-only <code>auction()</code> function and returns JSON.</p>
+      <p>noun.wtf v2 auction endpoint.</p>
       <p><a href="/api/auction">Open /api/auction</a></p>
 
       <dl>
@@ -134,8 +138,21 @@
         <dd><code>0x9A6DDb16e23967D5482E5BfD7444A04a5D5145fC</code></dd>
         <dt>Function</dt>
         <dd><code>auction()</code></dd>
-        <dt>Selector</dt>
-        <dd><code>0x7d9f6db5</code></dd>
+        <dt>CORS</dt>
+        <dd>Enabled for browser clients.</dd>
+      </dl>
+    </section>
+
+    <section class="endpoint">
+      <h2><span class="method">GET</span><code>/api/nouns-auction</code></h2>
+      <p>nouns.wtf auction endpoint.</p>
+      <p><a href="/api/nouns-auction">Open /api/nouns-auction</a></p>
+
+      <dl>
+        <dt>Contract</dt>
+        <dd><code>0x830BD73E4184ceF73443C15111a1DF14e495C706</code></dd>
+        <dt>Function</dt>
+        <dd><code>auction()</code></dd>
         <dt>CORS</dt>
         <dd>Enabled for browser clients.</dd>
       </dl>
@@ -149,8 +166,8 @@
     "nounId": "52",
     "amount": "0",
     "amountETH": "0",
-    "startTimeISO": "2026-06-30T23:36:35.000Z",
-    "endTimeISO": "2026-07-01T23:36:35.000Z",
+    "startTime": "1782862595",
+    "endTime": "1782948995",
     "timeLeft": "00:00",
     "bidder": "0x0000000000000000000000000000000000000000",
     "settled": false
