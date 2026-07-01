@@ -69,9 +69,7 @@ module.exports = async (req, res) => {
       amount: amount.toString(),
       amountETH: formatEther(amount),
       startTime: startTime.toString(),
-      startTimeISO: new Date(Number(startTime) * 1000).toISOString(),
       endTime: endTime.toString(),
-      endTimeISO: new Date(Number(endTime) * 1000).toISOString(),
       timeLeft: formatTimeLeft(endTime),
       bidder,
       settled,
@@ -81,7 +79,6 @@ module.exports = async (req, res) => {
       success: true,
       contract: CONTRACT_ADDRESS,
       function: 'auction()',
-      selector: '0x7d9f6db5',
       data,
     });
   } catch (err) {
