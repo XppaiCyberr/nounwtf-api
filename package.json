@@ -1,0 +1,13 @@
+{
+  "name": "nouns-auction-reader",
+  "version": "1.0.0",
+  "description": "Vercel serverless function that reads auction() from an on-chain contract via etherscan-equivalent RPC call",
+  "main": "index.js",
+  "scripts": {
+    "local": "node local.js"
+  },
+  "dependencies": {
+    "ethers": "^6.13.4",
+    "viem": "^2.54.1"
+  }
+}

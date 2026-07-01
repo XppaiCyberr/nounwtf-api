@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>noun.wtf v2 API</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f1f1f;
+      background: #ffffff;
+      line-height: 1.45;
+    }
+
+    main {
+      width: min(760px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 28px 0 10px;
+      font-size: 1.1rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: #555555;
+    }
+
+    a {
+      color: #0b57d0;
+    }
+
+    code,
+    pre {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.95rem;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #f1f3f4;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 12px 0 0;
+      padding: 14px;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      background: #f8fafd;
+    }
+
+    .endpoint {
+      padding: 16px;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+    }
+
+    .method {
+      display: inline-block;
+      margin-right: 8px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #e6f4ea;
+      color: #137333;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 6px 14px;
+      margin: 12px 0 0;
+    }
+
+    dt {
+      font-weight: 700;
+    }
+
+    dd {
+      margin: 0;
+      color: #555555;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 560px) {
+      main {
+        padding-top: 28px;
+      }
+
+      dl {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>noun.wtf v2 API</h1>
+    <p>Compact endpoint for reading the current auction state from Ethereum mainnet.</p>
+
+    <section>
+      <h2>Project Context</h2>
+      <p>
+        This endpoint is part of the
+        <a href="https://noun.wtf/grants/34">xpp noun.wtf hackathon grant</a>.
+        Detailed code, firmware notes, and step-by-step DIY instructions are available in the
+        <a href="https://github.com/XppaiCyberr/nounwtf-xpp">nounwtf-xpp GitHub repository</a>.
+      </p>
+    </section>
+
+    <section class="endpoint">
+      <h2><span class="method">GET</span><code>/api/auction</code></h2>
+      <p>Calls the contract's read-only <code>auction()</code> function and returns JSON.</p>
+      <p><a href="/api/auction">Open /api/auction</a></p>
+
+      <dl>
+        <dt>Contract</dt>
+        <dd><code>0x9A6DDb16e23967D5482E5BfD7444A04a5D5145fC</code></dd>
+        <dt>Function</dt>
+        <dd><code>auction()</code></dd>
+        <dt>Selector</dt>
+        <dd><code>0x7d9f6db5</code></dd>
+        <dt>CORS</dt>
+        <dd>Enabled for browser clients.</dd>
+      </dl>
+    </section>
+
+    <h2>Response</h2>
+    <p><code>timeLeft</code> is calculated from <code>endTime</code> and returned as <code>HH:MM</code>.</p>
+    <pre><code>{
+  "success": true,
+  "data": {
+    "nounId": "52",
+    "amount": "0",
+    "amountETH": "0",
+    "startTimeISO": "2026-06-30T23:36:35.000Z",
+    "endTimeISO": "2026-07-01T23:36:35.000Z",
+    "timeLeft": "00:00",
+    "bidder": "0x0000000000000000000000000000000000000000",
+    "settled": false
+  }
+}</code></pre>
+
+    <h2>Errors</h2>
+    <p>RPC failures return HTTP 500 with <code>{ "success": false, "error": "..." }</code>.</p>
+  </main>
+</body>
+</html>
