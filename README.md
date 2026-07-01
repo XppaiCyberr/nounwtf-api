@@ -8,6 +8,8 @@ For the broader project, including firmware notes and step-by-step DIY
 instructions, see the
 [nounwtf-xpp repository](https://github.com/XppaiCyberr/nounwtf-xpp).
 
+Live demo: https://nounv2api.vercel.app/
+
 ## Endpoints
 
 ### `GET /`
