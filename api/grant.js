@@ -1,11 +1,12 @@
 const GRAPHQL_URL = 'https://spirited-flexibility-production-3c30.up.railway.app/graphql';
+const ENS_CACHE_URL = 'https://cdn.jsdelivr.net/gh/xppaicyberr/nounsProposals/ens-cache.json';
+const ENS_IDEAS_URL = 'https://api.ensideas.com/ens/resolve';
 
 const QUERY = `
   query LatestGrant {
     grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED}) {
       items {
         description
-        status
         proposer
       }
     }
@@ -19,6 +20,43 @@ function getTitle(description) {
 
   const match = description.match(/^([\s\S]*?)(?:\r?\n\r?\n|$)/);
   return match ? match[1].trim().replace(/^#\s*/, '') : null;
+}
+
+async function fetchJson(url) {
+  const response = await fetch(url);
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(`Request failed with ${response.status}`);
+  }
+
+  return result;
+}
+
+async function resolveEns(address) {
+  if (typeof address !== 'string' || !address) {
+    return address;
+  }
+
+  const normalizedAddress = address.toLowerCase();
+
+  try {
+    const ensCache = await fetchJson(ENS_CACHE_URL);
+    const cachedName = ensCache[normalizedAddress];
+
+    if (cachedName) {
+      return cachedName;
+    }
+  } catch (err) {
+    // Keep the grant endpoint usable when the optional cache is unavailable.
+  }
+
+  try {
+    const resolved = await fetchJson(`${ENS_IDEAS_URL}/${normalizedAddress}`);
+    return resolved.displayName || resolved.name || address;
+  } catch (err) {
+    return address;
+  }
 }
 
 module.exports = async (req, res) => {
@@ -53,7 +91,7 @@ module.exports = async (req, res) => {
     const data = grant
       ? {
           title: getTitle(grant.description),
-          proposer: grant.proposer,
+          proposer: await resolveEns(grant.proposer),
         }
       : null;
 

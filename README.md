@@ -60,12 +60,16 @@ as `HH:MM`. Expired auctions return `00:00`.
 ### `GET /api/grant`
 
 noun.wtf v2 grant endpoint. Reads the latest non-canceled grant from the
-noun.wtf GraphQL API and returns only the parsed `title` and `proposer`
-address. `title` is parsed from `description` before the first blank line, with
-a leading Markdown `#` removed.
+noun.wtf GraphQL API and returns only the parsed `title` and `proposer`.
+`title` is parsed from `description` before the first blank line, with a
+leading Markdown `#` removed. `proposer` is resolved to an ENS name when
+available, first from the local ENS cache and then from ENS Ideas. If neither
+source has a name, the endpoint returns the proposer address.
 
 - Source: `https://spirited-flexibility-production-3c30.up.railway.app/graphql`
 - Query: `grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED})`
+- ENS cache: `https://cdn.jsdelivr.net/gh/xppaicyberr/nounsProposals/ens-cache.json`
+- ENS fallback: `https://api.ensideas.com/ens/resolve/:address`
 - CORS: enabled for browser clients
 
 Before compacting, the grant response included source/query metadata and the
@@ -92,7 +96,7 @@ Current compact grant response:
   "success": true,
   "data": {
     "title": "NOUN.WTF://PHYSICALART",
-    "proposer": "0xe11018c82d4405bdbc7414ec988fd08351666666"
+    "proposer": "xppaicyber.eth"
   }
 }
 ```
