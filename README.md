@@ -34,18 +34,7 @@ function and returns JSON.
 - Function: `auction()`
 - CORS: enabled for browser clients
 
-### `GET /api/grant`
-
-noun.wtf v2 grant endpoint. Reads the latest non-canceled grant from the
-noun.wtf GraphQL API and returns its `title`, `description`, `status`, and
-`proposer`. `title` is parsed from `description` before the first blank line,
-with a leading Markdown `#` removed.
-
-- Source: `https://spirited-flexibility-production-3c30.up.railway.app/graphql`
-- Query: `grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED})`
-- CORS: enabled for browser clients
-
-Example response:
+Example auction response:
 
 ```json
 {
@@ -67,6 +56,33 @@ Example response:
 
 `timeLeft` is calculated from `endTime` and the current server time, formatted
 as `HH:MM`. Expired auctions return `00:00`.
+
+### `GET /api/grant`
+
+noun.wtf v2 grant endpoint. Reads the latest non-canceled grant from the
+noun.wtf GraphQL API and returns its `title`, `description`, `status`, and
+`proposer`. `title` is parsed from `description` before the first blank line,
+with a leading Markdown `#` removed.
+
+- Source: `https://spirited-flexibility-production-3c30.up.railway.app/graphql`
+- Query: `grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED})`
+- CORS: enabled for browser clients
+
+Example grant response:
+
+```json
+{
+  "success": true,
+  "source": "https://spirited-flexibility-production-3c30.up.railway.app/graphql",
+  "query": "grants(limit: 1, orderDirection: \"DESC\", where: {status_not: CANCELED})",
+  "data": {
+    "title": "NOUN.WTF://PHYSICALART",
+    "description": "# NOUN.WTF://PHYSICALART\n\nHI, IT'S ME XPP.\n\n...",
+    "status": "EXECUTED",
+    "proposer": "0xe11018c82d4405bdbc7414ec988fd08351666666"
+  }
+}
+```
 
 Errors return HTTP 500:
 
