@@ -158,6 +158,21 @@
       </dl>
     </section>
 
+    <section class="endpoint">
+      <h2><span class="method">GET</span><code>/api/grant</code></h2>
+      <p>Latest non-canceled noun.wtf v2 grant endpoint.</p>
+      <p><a href="/api/grant">Open /api/grant</a></p>
+
+      <dl>
+        <dt>Source</dt>
+        <dd><code>https://spirited-flexibility-production-3c30.up.railway.app/graphql</code></dd>
+        <dt>Query</dt>
+        <dd><code>grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED})</code></dd>
+        <dt>CORS</dt>
+        <dd>Enabled for browser clients.</dd>
+      </dl>
+    </section>
+
     <h2>Response</h2>
     <p><code>timeLeft</code> is calculated from <code>endTime</code> and returned as <code>HH:MM</code>.</p>
     <pre><code>{

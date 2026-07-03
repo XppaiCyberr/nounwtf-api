@@ -34,6 +34,17 @@ function and returns JSON.
 - Function: `auction()`
 - CORS: enabled for browser clients
 
+### `GET /api/grant`
+
+noun.wtf v2 grant endpoint. Reads the latest non-canceled grant from the
+noun.wtf GraphQL API and returns its `title`, `description`, `status`, and
+`proposer`. `title` is parsed from `description` before the first blank line,
+with a leading Markdown `#` removed.
+
+- Source: `https://spirited-flexibility-production-3c30.up.railway.app/graphql`
+- Query: `grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED})`
+- CORS: enabled for browser clients
+
 Example response:
 
 ```json
@@ -71,6 +82,7 @@ Errors return HTTP 500:
 - `index.html` - static landing page served at `/`
 - `api/auction.js` - Vercel serverless function served at `/api/auction`
 - `api/nouns-auction.js` - Vercel serverless function served at `/api/nouns-auction`
+- `api/grant.js` - Vercel serverless function served at `/api/grant`
 - `package.json` - dependencies and npm scripts
 - `pnpm-lock.yaml` - locked dependency versions
 
@@ -98,6 +110,7 @@ Check the API file syntax:
 
 ```bash
 node --check api/auction.js
+node --check api/grant.js
 ```
 
 ## Deploy to Vercel
@@ -119,6 +132,7 @@ After deployment:
 - Landing page: `https://<your-project>.vercel.app/`
 - noun.wtf v2 API: `https://<your-project>.vercel.app/api/auction`
 - nouns.wtf API: `https://<your-project>.vercel.app/api/nouns-auction`
+- noun.wtf v2 grant API: `https://<your-project>.vercel.app/api/grant`
 
 ## RPC Endpoint
 
