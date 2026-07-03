@@ -53,14 +53,12 @@ module.exports = async (req, res) => {
     const data = grant
       ? {
           title: getTitle(grant.description),
-          ...grant,
+          proposer: grant.proposer,
         }
       : null;
 
     res.status(200).json({
       success: true,
-      source: GRAPHQL_URL,
-      query: 'grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED})',
       data,
     });
   } catch (err) {

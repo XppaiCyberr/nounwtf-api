@@ -60,15 +60,16 @@ as `HH:MM`. Expired auctions return `00:00`.
 ### `GET /api/grant`
 
 noun.wtf v2 grant endpoint. Reads the latest non-canceled grant from the
-noun.wtf GraphQL API and returns its `title`, `description`, `status`, and
-`proposer`. `title` is parsed from `description` before the first blank line,
-with a leading Markdown `#` removed.
+noun.wtf GraphQL API and returns only the parsed `title` and `proposer`
+address. `title` is parsed from `description` before the first blank line, with
+a leading Markdown `#` removed.
 
 - Source: `https://spirited-flexibility-production-3c30.up.railway.app/graphql`
 - Query: `grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED})`
 - CORS: enabled for browser clients
 
-Example grant response:
+Before compacting, the grant response included source/query metadata and the
+full GraphQL fields:
 
 ```json
 {
@@ -79,6 +80,18 @@ Example grant response:
     "title": "NOUN.WTF://PHYSICALART",
     "description": "# NOUN.WTF://PHYSICALART\n\nHI, IT'S ME XPP.\n\n...",
     "status": "EXECUTED",
+    "proposer": "0xe11018c82d4405bdbc7414ec988fd08351666666"
+  }
+}
+```
+
+Current compact grant response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "title": "NOUN.WTF://PHYSICALART",
     "proposer": "0xe11018c82d4405bdbc7414ec988fd08351666666"
   }
 }
