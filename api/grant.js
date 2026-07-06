@@ -1,10 +1,11 @@
 const { resolveEns } = require('./lib/ens');
 
 const GRAPHQL_URL = 'https://spirited-flexibility-production-3c30.up.railway.app/graphql';
+const GRANT_LIMIT = 4;
 
 const QUERY = `
-  query LatestGrant {
-    grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED}) {
+  query LatestGrants {
+    grants(limit: ${GRANT_LIMIT}, orderDirection: "DESC", where: {status_not: CANCELED}) {
       items {
         id
         description
@@ -51,17 +52,18 @@ module.exports = async (req, res) => {
       throw new Error(result.errors[0].message || 'GraphQL request failed');
     }
 
-    const grant = result.data?.grants?.items?.[0] || null;
-    const data = grant
-      ? {
-          id: grant.id,
-          title: getTitle(grant.description),
-          proposer: await resolveEns(grant.proposer),
-        }
-      : null;
+    const grants = result.data?.grants?.items || [];
+    const data = await Promise.all(
+      grants.map(async (grant) => ({
+        id: grant.id,
+        title: getTitle(grant.description),
+        proposer: await resolveEns(grant.proposer),
+      }))
+    );
 
     res.status(200).json({
       success: true,
+      limit: GRANT_LIMIT,
       data,
     });
   } catch (err) {
