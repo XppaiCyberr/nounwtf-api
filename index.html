@@ -175,6 +175,7 @@
 
     <h2>Response</h2>
     <p><code>timeLeft</code> is calculated from <code>endTime</code> and returned as <code>HH:MM</code>.</p>
+    <p><code>bidder</code> is ENS-resolved when available. <code>bidderAddress</code> keeps the raw address. The zero address is returned as <code>null</code>.</p>
     <pre><code>{
   "success": true,
   "data": {
@@ -184,7 +185,8 @@
     "startTime": "1782862595",
     "endTime": "1782948995",
     "timeLeft": "00:00",
-    "bidder": "0x0000000000000000000000000000000000000000",
+    "bidder": null,
+    "bidderAddress": null,
     "settled": false
   }
 }</code></pre>

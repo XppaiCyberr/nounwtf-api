@@ -1,5 +1,6 @@
 const { createPublicClient, http, formatEther, getAddress } = require('viem');
 const { mainnet } = require('viem/chains');
+const { nullIfZeroAddress, resolveEns } = require('./lib/ens');
 
 // Contract from the request — getAddress() normalizes casing/checksum
 // automatically, so it doesn't matter if you paste it lowercase, uppercase,
@@ -63,6 +64,7 @@ module.exports = async (req, res) => {
 
     // viem returns a tuple in output order: [nounId, amount, startTime, endTime, bidder, settled]
     const [nounId, amount, startTime, endTime, bidder, settled] = result;
+    const resolvedBidder = await resolveEns(bidder);
 
     const data = {
       nounId: nounId.toString(),
@@ -71,7 +73,8 @@ module.exports = async (req, res) => {
       startTime: startTime.toString(),
       endTime: endTime.toString(),
       timeLeft: formatTimeLeft(endTime),
-      bidder,
+      bidder: resolvedBidder,
+      bidderAddress: nullIfZeroAddress(bidder),
       settled,
     };
 

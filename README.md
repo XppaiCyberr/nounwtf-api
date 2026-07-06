@@ -48,7 +48,8 @@ Example auction response:
     "startTime": "1782862595",
     "endTime": "1782948995",
     "timeLeft": "00:00",
-    "bidder": "0x0000000000000000000000000000000000000000",
+    "bidder": null,
+    "bidderAddress": null,
     "settled": false
   }
 }
@@ -56,6 +57,9 @@ Example auction response:
 
 `timeLeft` is calculated from `endTime` and the current server time, formatted
 as `HH:MM`. Expired auctions return `00:00`.
+
+`bidder` is resolved to an ENS name when available. `bidderAddress` always
+contains the raw address. The zero address is returned as `null`.
 
 ### `GET /api/grant`
 
@@ -117,6 +121,7 @@ Errors return HTTP 500:
 - `api/auction.js` - Vercel serverless function served at `/api/auction`
 - `api/nouns-auction.js` - Vercel serverless function served at `/api/nouns-auction`
 - `api/grant.js` - Vercel serverless function served at `/api/grant`
+- `api/lib/ens.js` - shared ENS resolver for API handlers
 - `package.json` - dependencies and npm scripts
 - `pnpm-lock.yaml` - locked dependency versions
 
@@ -144,7 +149,9 @@ Check the API file syntax:
 
 ```bash
 node --check api/auction.js
+node --check api/nouns-auction.js
 node --check api/grant.js
+node --check api/lib/ens.js
 ```
 
 ## Deploy to Vercel
