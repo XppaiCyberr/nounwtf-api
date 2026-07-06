@@ -60,7 +60,7 @@ as `HH:MM`. Expired auctions return `00:00`.
 ### `GET /api/grant`
 
 noun.wtf v2 grant endpoint. Reads the latest non-canceled grant from the
-noun.wtf GraphQL API and returns only the parsed `title` and `proposer`.
+noun.wtf GraphQL API and returns the grant `id`, parsed `title`, and `proposer`.
 `title` is parsed from `description` before the first blank line, with a
 leading Markdown `#` removed. `proposer` is resolved to an ENS name when
 available, first from the local ENS cache and then from ENS Ideas. If neither
@@ -95,6 +95,7 @@ Current compact grant response:
 {
   "success": true,
   "data": {
+    "id": "34",
     "title": "NOUN.WTF://PHYSICALART",
     "proposer": "xppaicyber.eth"
   }

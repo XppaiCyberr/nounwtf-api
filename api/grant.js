@@ -6,6 +6,7 @@ const QUERY = `
   query LatestGrant {
     grants(limit: 1, orderDirection: "DESC", where: {status_not: CANCELED}) {
       items {
+        id
         description
         proposer
       }
@@ -90,6 +91,7 @@ module.exports = async (req, res) => {
     const grant = result.data?.grants?.items?.[0] || null;
     const data = grant
       ? {
+          id: grant.id,
           title: getTitle(grant.description),
           proposer: await resolveEns(grant.proposer),
         }
